@@ -1,5 +1,14 @@
+/**
+ * 
+ *  
+ * 
+ * @author Erik Klaljumäe
+*/
 // import utils;
 
-class Person {
+public class Person {
+    private String isikukood;
+    public Person() {
 
+    }
 }
