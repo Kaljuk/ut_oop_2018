@@ -12,7 +12,11 @@ import java.lang.*; // For the regex split
 public class NimedeLyhendamine {
     public static void main(String[] args) throws Exception {
         // Get names from nimed.txt file
-        ArrayList<String> nimed = readPersons("nimed.txt");
+        ArrayList<String> nimed = readPersons(
+            (args.length>0)?
+            args[0]:
+            "nimed.txt"
+        );
         // Process and print out the names
         printPersons(nimed);
     }
@@ -22,7 +26,7 @@ public class NimedeLyhendamine {
         // Save names here
         ArrayList<String> names = new ArrayList<String>();
 
-        FileReader failiLugeja = new FileReader("nimed.txt");
+        FileReader failiLugeja = new FileReader(fn);
         BufferedReader failiSisu = new BufferedReader(failiLugeja);
         // Get file contents
         String failiRida;
