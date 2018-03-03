@@ -1,0 +1,7 @@
+/**
+ * FailiVaatleja
+ */
+public class FailiVaatleja {
+    
+    
+}
