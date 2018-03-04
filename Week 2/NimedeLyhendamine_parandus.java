@@ -1,17 +1,11 @@
 /**
  * NimedeLyhendamine
-<<<<<<< HEAD
- */
-public class NimedeLyhendamine {
-    public static void main(String[] args) throws Exception {
-        
-    }
-    public String[] readPersons() {
-        
-    };
-=======
  * 
  * Course of actions
+ * Used links
+ * https://stackoverflow.com/questions/22749096/efficient-way-to-read-a-file-java?rq=1
+ * Parandused
+ * - Ei kasuta FileReaderit
  * 
  */
 
@@ -19,9 +13,12 @@ import java.util.*; // For the List
 import java.io.*;   // For reading the file
 import java.lang.*; // For the regex split
 
-public class NimedeLyhendamine {
+public class NimedeLyhendamine_parandus {
     public static void main(String[] args) throws Exception {
         // Get names from nimed.txt file
+
+        System.out.println(new File("abc.txt"));
+
         ArrayList<String> nimed = readPersons(
             (args.length>0)?
             args[0]:
@@ -36,8 +33,9 @@ public class NimedeLyhendamine {
         // Save names here
         ArrayList<String> names = new ArrayList<String>();
 
-        FileReader failiLugeja = new FileReader(fn);
-        BufferedReader failiSisu = new BufferedReader(failiLugeja);
+
+        InputStream is = new FileInputStream(new File(fn));
+        BufferedReader failiSisu = new BufferedReader(new InputStreamReader(is));
         // Get file contents
         String failiRida;
         while((failiRida= failiSisu.readLine()) != null) {
@@ -75,5 +73,4 @@ public class NimedeLyhendamine {
             System.out.println(newFullname);
         }
     }
->>>>>>> 4fabba0bc3b2b4ea43d3424c24673f978a824a95
 }
