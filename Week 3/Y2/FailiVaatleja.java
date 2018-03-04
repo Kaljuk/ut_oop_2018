@@ -4,9 +4,10 @@ import java.nio.file.FileVisitor;
 /**
  * FailiVaatleja
  */
-abstract class FailiVaatleja implements FileVisitor<Path> {
+// <Path>
+public class FailiVaatleja implements FileVisitor {
     
-    @Override
+    // @Override
     FileVisitResult visitFile (Path fn) 
         throws IOException {
         System.out.println(fn);
