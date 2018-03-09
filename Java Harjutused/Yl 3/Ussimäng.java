@@ -18,7 +18,9 @@ public class Ussimäng {
         this.mänguväli = m;
         // leia ussi pea
         String[] read = m.split("\n");
-
+        for (int i=0;i<read.length;i++) {
+            
+        }
     }
 
     public void registreeriSündmus (String s) {
