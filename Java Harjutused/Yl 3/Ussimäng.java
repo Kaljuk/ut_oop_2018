@@ -1,13 +1,13 @@
+
 import java.util.*;
 
 public class Ussimäng {
     
-    private String mänguväli;
-
+    private GameField mänguväli;
 
     private String suund = "";
     private List<Pos> uss = new ArrayList<Pos>();
-
+    
     private String[] allCommands = {
         "üles", "alla",
         "vasakule", "paremale",
@@ -15,7 +15,7 @@ public class Ussimäng {
     };
 
     public Ussimäng(String m) {
-        this.mänguväli = m;
+        this.mänguväli = new GameField(m);
         // leia ussi pea
         String[] read = m.split("\n");
         for (int i=0;i<read.length;i++) {
@@ -27,12 +27,12 @@ public class Ussimäng {
         // If command is acceptable
         if (Arrays.asList(allCommands).contains(s)) {
             // 
-
+            System.out.println("Sobib");
         }
     }
 
     public String annaSeis() {
-        return this.mänguväli;
+        return this.mänguväli.toString();
     }
 
     private boolean sündmuseTagajärg(String s) {
@@ -63,3 +63,45 @@ class Pos {
     }
 }
 
+/**
+ * GameField
+ */
+class GameField {
+
+    private char[][] field;
+    private int width;
+    private int height;
+
+    public GameField(String f) {
+        setFieldSize(f);
+    }  
+
+    
+    public String toString() {
+        return getField();
+    }
+    
+    private String getField() {
+        String f = "";
+        for(int i=0; i < this.height; i++) {
+            for (int j=0; j < this.width; j++) {
+                f = f + "a";
+            }
+            f = f + "\n";
+        }
+        System.out.println("Field: "+f);
+        return f;
+    }
+
+    private void setFieldSize(String f) {
+        String[] rows = f.split("\n");
+        this.field = new char[ rows.length ][ rows[0].length() ];
+
+        for (int i=0 ; i< rows.length ; i++) {
+            for(int j=0; j< rows[i].length(); j++) {
+                System.out.printf("X%d Y%d %c", i, j, rows[i].charAt(j) );
+
+            }
+        }
+    }
+}
