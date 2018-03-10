@@ -19,7 +19,9 @@ public class Elektriauto {
             this.laadimisaeg = inLaadmisaeg;
         }
     }
-
+    public int getLaadimisaeg () {
+        return this.laadimisaeg;
+    }
     
 
 }
