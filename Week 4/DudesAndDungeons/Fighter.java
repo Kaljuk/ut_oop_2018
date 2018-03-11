@@ -23,6 +23,8 @@ public class Fighter extends Dude {
     @Override
     public void takeTurn(Dude attackTarget) {
         Effect attack = new WeaponAttack(this.target, this.accuracy);
-        System.out.println("[s]HIA");
+        String takeTurnMessage = String.format("[%s] WeaponAttack -> %s", this.name, this.target.getType());
+        System.out.println(takeTurnMessage);
+        System.out.println(this.target.getHealth());
     }
 }

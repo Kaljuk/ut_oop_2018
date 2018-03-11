@@ -28,8 +28,8 @@ public abstract class Dude {
     public void addEffect(Effect inEffect) {
         this.appliedEffects.add(inEffect);
     }
-    public void getDamage(int inDamage) {
-        this.health -= Math.min(0, this.armor - inDamage);
+    public void getDamaged(int inDamage) {
+        this.health += Math.min(0, this.armor - inDamage);
     }
     // [END GetDam]
 
@@ -87,5 +87,8 @@ public abstract class Dude {
     }
     public String getType() {
         return this.dudeType;
+    }
+    public int getHealth() {
+        return this.health;
     }
 }

@@ -51,7 +51,7 @@ public class Duel {
             System.out.println(
                 String.format("[Duel] Duel is over\n\t[%s] Killed %s",
                 (dOneIsAlive)?dOne.getName():dTwo.getName(),
-                (dTwoIsAlive)?dTwo.getName():dOne.getName()
+                (dOneIsAlive)?dTwo.getName():dOne.getName()
             ));
             return true;
         } else {

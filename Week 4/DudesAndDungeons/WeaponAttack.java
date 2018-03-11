@@ -13,12 +13,12 @@ public class WeaponAttack implements Effect {
 
     @Override
     public void onHit(Dude effectTarget, int doDamage) {
-        effectTarget.getDamage(doDamage);
+        effectTarget.getDamaged(doDamage);
         effectTarget.addEffect(this);
     }
     @Override
     public boolean willHit(Dude effectTarget, int accuracy) {
-        int hitChance = (int) Math.min(20.0, Math.random()*20.0 + 1.0);
+        int hitChance = (int) Math.max(20.0, Math.random()*20.0 + 1.0);
         if (accuracy + hitChance >= effectTarget.getArmor()) {
             return true;
         } else {
