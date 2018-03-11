@@ -25,6 +25,5 @@ public class Fighter extends Dude {
         Effect attack = new WeaponAttack(this.target, this.accuracy);
         String takeTurnMessage = String.format("[%s] WeaponAttack -> %s", this.name, this.target.getType());
         System.out.println(takeTurnMessage);
-        System.out.println(this.target.getHealth());
     }
 }

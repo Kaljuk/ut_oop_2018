@@ -30,7 +30,7 @@ public class Duel {
     }
 
     public void announceTurn() {
-        String turnMessage = String.format("[Duel] Turn %d begins",
+        String turnMessage = String.format("\n[Duel] Turn %d begins\n",
             this.turn
         );
         System.out.println(turnMessage);

@@ -29,7 +29,10 @@ public abstract class Dude {
         this.appliedEffects.add(inEffect);
     }
     public void getDamaged(int inDamage) {
-        this.health += Math.min(0, this.armor - inDamage);
+        int realDamageDone = Math.min(this.armor - inDamage, 0);
+        String gotDamagedMessage = String.format("[%s] Got hit %s", this.name, realDamageDone);
+        System.out.println(gotDamagedMessage);
+        this.health += realDamageDone;
     }
     // [END GetDam]
 
