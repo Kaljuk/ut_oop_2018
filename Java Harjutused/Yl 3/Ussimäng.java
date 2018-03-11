@@ -17,9 +17,12 @@ public class Ussimäng {
     public Ussimäng(String m) {
         this.mänguväli = new GameField(m);
         // leia ussi pea
-        String[] read = m.split("\n");
-        for (int i=0;i<read.length;i++) {
-            
+        String[] rows = m.split("\n");
+        for (int i=0;i< rows.length;i++) {
+            String[] rida = rows[i].split("");
+            for (int j=0; j< rida.length; j++) {
+                
+            }
         }
     }
 
@@ -28,16 +31,27 @@ public class Ussimäng {
         if (Arrays.asList(allCommands).contains(s)) {
             // 
             System.out.println("Sobib");
+            
+            this.suund = (s != "oota")? s : suund;
+
+            switch(s) {
+                case "vasakule":
+                case "paremale":
+
+                break;
+                case "üles":
+                case "alla":
+
+                break;
+                default:
+                break;
+            }
+
         }
     }
 
     public String annaSeis() {
         return this.mänguväli.toString();
-    }
-
-    private boolean sündmuseTagajärg(String s) {
-
-        return true;
     }
 
 }
@@ -68,9 +82,7 @@ class Pos {
  */
 class GameField {
 
-    private char[][] field;
-    private int width;
-    private int height;
+    private String[][] field;
 
     public GameField(String f) {
         setFieldSize(f);
@@ -83,25 +95,14 @@ class GameField {
     
     private String getField() {
         String f = "";
-        for(int i=0; i < this.height; i++) {
-            for (int j=0; j < this.width; j++) {
-                f = f + "a";
-            }
-            f = f + "\n";
-        }
         System.out.println("Field: "+f);
         return f;
     }
 
-    private void setFieldSize(String f) {
-        String[] rows = f.split("\n");
-        this.field = new char[ rows.length ][ rows[0].length() ];
+    private void setFieldSize(String inField) {
+        String[] rows = inField.split("\n");
+        
+        
 
-        for (int i=0 ; i< rows.length ; i++) {
-            for(int j=0; j< rows[i].length(); j++) {
-                System.out.printf("X%d Y%d %c", i, j, rows[i].charAt(j) );
-
-            }
-        }
-    }
+    } 
 }

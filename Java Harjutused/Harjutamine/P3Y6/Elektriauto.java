@@ -5,7 +5,6 @@ public class Elektriauto {
     private double soiduulatus;
     private Elektrijaam eJaam;
 
-
     public Elektriauto(String inAutomark, double inElektrikulu, int inLaadimisaeg, double inSoiduulatus, Elektrijaam inEJaam) {
         this.automark = inAutomark;
         this.elektrikulu = inElektrikulu;
@@ -19,10 +18,16 @@ public class Elektriauto {
             this.laadimisaeg = inLaadmisaeg;
         }
     }
+
     public int getLaadimisaeg () {
         return this.laadimisaeg;
     }
-    
+
+    public String toString() {
+        return String.format("100 km reisi maksumus on %d",laadimisaeg);
+    }
 
 }
+
+
 
