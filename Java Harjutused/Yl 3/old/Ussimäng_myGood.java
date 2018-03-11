@@ -44,9 +44,6 @@ public class Ussimäng {
     }
 
     public String annaSeis() {
-        if (isGameOver) {
-            return "Mäng läbi!";
-        }
         return this.mänguväli.toString();
     }
 
@@ -149,7 +146,7 @@ class GameField {
 
         // Check worm collision with self
 
-        return this.wormDead;
+        return false;
     }
 
     public void moveWorm(int addX, int addY) {
@@ -159,8 +156,7 @@ class GameField {
         //System.out.println("ain");
         this.uss.add(0, uusPea);
 
-        clearWorm();
-        updateWorm();
+        //updateWorm();
         //System.out.println("grow"+this.growWorm);
         if (!this.growWorm) {
             this.uss.remove(this.uss.size()-1);
@@ -178,7 +174,7 @@ class GameField {
         for(int i=0; i< this.field.length; i++) {
             for(int j=0; j<this.field[i].length; j++) {
                 field[i][j] = (field[i][j].equals(ussSymbol))?" ":field[i][j];
-
+                this.wormDead = (field[i][j].equals(walSymbol))? true : this.wormDead;
                 
             }
         }
@@ -191,9 +187,7 @@ class GameField {
             //byte nomnom = 
             //System.out.println(x+"--"+y+(field[y][x].equals(nomSymbol)) + field[y][x]);
             this.growWorm = (field[y][x].equals(nomSymbol))?true:this.growWorm;
-            
-            this.wormDead = (field[y][x].equals(walSymbol))? true : this.wormDead;
-            this.wormDead = (field[y][x].equals(ussSymbol))? true : this.wormDead;
+
             field[y][x] = ussSymbol;
         }
         //System.out.println("Update End, grow"+this.growWorm);

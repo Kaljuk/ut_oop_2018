@@ -11,7 +11,10 @@ public class testuss {
         m.registreeriSündmus("alla");
         m.registreeriSündmus("paremale");
         m.registreeriSündmus("alla");
-        
+        //m.registreeriSündmus("vasakule");
+        //m.registreeriSündmus("üles");
+        //m.registreeriSündmus("oota");
+
         System.out.println(m.annaSeis());
     }
 }
