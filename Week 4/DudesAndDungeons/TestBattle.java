@@ -18,6 +18,16 @@ public class TestBattle {
                 Thread.currentThread().interrupt();
             }
         }
+        System.out.println("\t\t[Statistics]");
+
+        WeaponAttack.stats();
+        Knockdown.stats();
+        Firebolt.stats();
+        Spiderweb.stats();
+        Flamed.stats();
+        GodsFist.stats();
+
+        firstDuel.isDuelOver();
     }
 
 }

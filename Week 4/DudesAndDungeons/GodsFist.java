@@ -1,13 +1,9 @@
-/**
- * WeaponAttack
- vähendab pihta minemise hetkel vastase health
- */
-public class WeaponAttack implements Effect {
+public class GodsFist implements Effect {
     public static int used = 0;
 
-    private int damage = 12;
+    private int damage = 999999999;
 
-    public WeaponAttack(Dude effectTarget, int accuracy) {
+    public GodsFist(Dude effectTarget, int accuracy) {
         used++;
 
         if (willHit(effectTarget, accuracy)) {
@@ -50,12 +46,12 @@ public class WeaponAttack implements Effect {
     }
     @Override
     public String getName() {
-        return "WeaponAttack";
+        return "GodsFist";
     }
 
 
     public static void stats() {
-        System.out.println("Total times somebody got wacked (WeaponAttack):"+used);
+        System.out.println("Total times somebody got fisted:"+used);
     }
 
 }

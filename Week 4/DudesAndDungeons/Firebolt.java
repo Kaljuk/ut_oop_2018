@@ -1,15 +1,16 @@
-/**
- * WeaponAttack
- vähendab pihta minemise hetkel vastase health
- */
-public class WeaponAttack implements Effect {
+/*
+     vähendab pihta minemise hetkel vastase actionPoints 0 peale
+*/
+import java.util.*;
+
+public class Firebolt implements Effect {
     public static int used = 0;
 
-    private int damage = 12;
+    private int damage = 23;
+    private boolean hasExpired = false;
 
-    public WeaponAttack(Dude effectTarget, int accuracy) {
+    public Firebolt(Dude effectTarget, int accuracy) {
         used++;
-
         if (willHit(effectTarget, accuracy)) {
             onHit(effectTarget, damage);
         }
@@ -19,6 +20,11 @@ public class WeaponAttack implements Effect {
     public void onHit(Dude effectTarget, int doDamage) {
         effectTarget.getDamaged(doDamage);
         effectTarget.addEffect(this);
+        // Chance to set enemy on fire
+        if (new Random().nextInt()*10 > 5 || true) {
+            Effect onFlame = new Flamed(3);
+            effectTarget.addEffect(onFlame);
+        }
     }
     @Override
     public boolean willHit(Dude effectTarget, int accuracy) {
@@ -37,25 +43,25 @@ public class WeaponAttack implements Effect {
     @Override
     public void afterTurn(Dude effectTarget) {
         // Do nothing
+        effectTarget.getDamaged(damage);
+        hasExpired = true;
     }
 
+    // Cost is 10 AP
     //@Override
-    // Cost is 5 AP
     public static int requiredActionPoints() {
-        return 5;
+        return 15;
     }
     @Override
     public boolean isExpired() {
-        return true;
+        return hasExpired;
     }
     @Override
     public String getName() {
-        return "WeaponAttack";
+        return "Firebolt";
     }
-
 
     public static void stats() {
-        System.out.println("Total times somebody got wacked (WeaponAttack):"+used);
+        System.out.println("Total times firebolted:"+used);
     }
-
 }

@@ -1,15 +1,15 @@
-/**
- * WeaponAttack
- vähendab pihta minemise hetkel vastase health
- */
-public class WeaponAttack implements Effect {
+/*
+Spiderweb - vähendab vastase <AP?> iga käigu alguses vähendatab tema actionPoints.
+            efekt lõpeb, kui vastast on kahe tema käigu jooksul mõjutatud.
+*/
+public class Spiderweb implements Effect {
     public static int used = 0;
 
-    private int damage = 12;
+    private int damage = 14;
+    private int duration = 2;
 
-    public WeaponAttack(Dude effectTarget, int accuracy) {
+    public Spiderweb(Dude effectTarget, int accuracy) {
         used++;
-
         if (willHit(effectTarget, accuracy)) {
             onHit(effectTarget, damage);
         }
@@ -37,25 +37,25 @@ public class WeaponAttack implements Effect {
     @Override
     public void afterTurn(Dude effectTarget) {
         // Do nothing
+        effectTarget.getDamaged(damage);
+        duration--;
     }
 
     //@Override
-    // Cost is 5 AP
+    // Cost is 10 AP
     public static int requiredActionPoints() {
-        return 5;
+        return 12;
     }
     @Override
     public boolean isExpired() {
-        return true;
+        return (duration >0)?false:true;
     }
     @Override
     public String getName() {
-        return "WeaponAttack";
+        return "Spiderweb";
     }
-
 
     public static void stats() {
-        System.out.println("Total times somebody got wacked (WeaponAttack):"+used);
+        System.out.println("Total times webbed:"+used);
     }
-
 }

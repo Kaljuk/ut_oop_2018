@@ -8,6 +8,7 @@ public abstract class Dude {
     protected int armor;
     protected int health;
     protected int actionPoints;
+    protected int actionPointsPerTurn;
     // Name
     protected String name;
     // Who to fight
@@ -34,13 +35,29 @@ public abstract class Dude {
         System.out.println(gotDamagedMessage);
         this.health += realDamageDone;
     }
+    public void getTrueDamage(int trueDamage) {
+        this.health -= trueDamage;
+    }
+    public void setActionPoints (int inActionPoints) {
+        this.actionPoints = inActionPoints;
+    }
     // [END GetDam]
+
+    public void printEffects() {
+        System.out.println("["+this.name + " Effects]");
+        for (Effect i : appliedEffects) {
+            System.out.println(
+                String.format("+ %s",i.getName() )
+            );
+        }
+    }
 
     public void cycleEffects (boolean beforeT) {
         // Check Effects
         for(int i=0; i< this.appliedEffects.size(); i++) {
             Effect e = this.appliedEffects.get(i);
             if (e.isExpired()) {
+                System.out.println(String.format("[%s] <%s> lost effect", this.name, e.getName()));
                 this.appliedEffects.remove(i);
             } else {
                 if (beforeT) {
@@ -53,7 +70,8 @@ public abstract class Dude {
     }
     public void beforeTurn () {
         cycleEffects(true);
-        String beginTurn = String.format("[%s] Begins turn", this.name);
+        String beginTurn = String.format("[%s] Begins turn\n", this.name);
+        beginTurn += String.format("HP:%s\nAP:%s",this.health, this.actionPoints);
         System.out.println(beginTurn);
     }
     public void takeTurn(Dude attackTarget) {
@@ -62,6 +80,7 @@ public abstract class Dude {
     }
     public void afterTurn () {
         cycleEffects(false);
+        this.actionPoints += this.actionPointsPerTurn;
     }
 
     public boolean isAlive() {

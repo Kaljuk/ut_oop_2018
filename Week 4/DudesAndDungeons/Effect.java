@@ -12,8 +12,12 @@ public interface Effect {
     public void beforeTurn(Dude effectTarget);
     public void afterTurn(Dude effectTarget);
 
-    public int requiredActionPoints();
+    public static int requiredActionPoints() {
+        return 1;
+    };
     public boolean isExpired();
 
     public boolean willHit(Dude effectTarget, int accuracy);
+
+    public String getName();
 }

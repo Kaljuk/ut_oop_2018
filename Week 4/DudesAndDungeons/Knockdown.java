@@ -1,13 +1,11 @@
-/**
- * WeaponAttack
- vähendab pihta minemise hetkel vastase health
- */
-public class WeaponAttack implements Effect {
+/*
+     vähendab pihta minemise hetkel vastase actionPoints 0 peale
+*/
+public class Knockdown implements Effect {
+    private int damage = 6;
     public static int used = 0;
 
-    private int damage = 12;
-
-    public WeaponAttack(Dude effectTarget, int accuracy) {
+    public Knockdown(Dude effectTarget, int accuracy) {
         used++;
 
         if (willHit(effectTarget, accuracy)) {
@@ -17,7 +15,7 @@ public class WeaponAttack implements Effect {
 
     @Override
     public void onHit(Dude effectTarget, int doDamage) {
-        effectTarget.getDamaged(doDamage);
+        effectTarget.setActionPoints(0);
         effectTarget.addEffect(this);
     }
     @Override
@@ -40,9 +38,9 @@ public class WeaponAttack implements Effect {
     }
 
     //@Override
-    // Cost is 5 AP
+    // Cost is 10 AP
     public static int requiredActionPoints() {
-        return 5;
+        return 10;
     }
     @Override
     public boolean isExpired() {
@@ -50,12 +48,10 @@ public class WeaponAttack implements Effect {
     }
     @Override
     public String getName() {
-        return "WeaponAttack";
+        return "Knockdown";
     }
-
 
     public static void stats() {
-        System.out.println("Total times somebody got wacked (WeaponAttack):"+used);
+        System.out.println("Total times Knocked down:"+used);
     }
-
 }

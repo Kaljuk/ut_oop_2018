@@ -12,6 +12,9 @@ public class Duel {
 
     public void oneTurnCycle() {
         announceTurn();
+        duelists[0].printEffects();
+        duelists[1].printEffects();
+
         for (int i=0; i<duelists.length; i++) {
             Dude duelist = duelists[i];
             duelist.beforeTurn();
@@ -19,6 +22,7 @@ public class Duel {
             duelist.afterTurn();
         }
         this.turn++;
+
     }
 
     public void inititateBattle() {
@@ -41,9 +45,10 @@ public class Duel {
         Dude dTwo = duelists[1];
         boolean dOneIsAlive = dOne.isAlive();
         boolean dTwoIsAlive = dTwo.isAlive();
+
         if (!dOneIsAlive && !dTwoIsAlive) {
             System.out.println(
-                String.format("[Duel] Duel is over\n\t[%s] Dead\n\t[%s] Dead",
+                String.format("[Duel] Duel is over, no winners here\n\t[%s] Dead\n\t[%s] Dead",
                 dOne.getName(), dTwo.getName()
             ));
             return true;
