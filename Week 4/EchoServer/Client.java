@@ -2,6 +2,7 @@
 
 import java.lang.*;
 import java.nio.charset.Charset;
+import java.io.DataInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -54,5 +55,8 @@ public class Client {
         out.close();
         socket.close();
         //System.out.println("cleaned up");
+    }
+
+    private void sendData(DataInputStream dataIn, String sendString) {
     }
 }

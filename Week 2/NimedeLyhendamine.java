@@ -1,15 +1,5 @@
 /**
  * NimedeLyhendamine
-<<<<<<< HEAD
- */
-public class NimedeLyhendamine {
-    public static void main(String[] args) throws Exception {
-        
-    }
-    public String[] readPersons() {
-        
-    };
-=======
  * 
  * Course of actions
  * 
@@ -75,5 +65,4 @@ public class NimedeLyhendamine {
             System.out.println(newFullname);
         }
     }
->>>>>>> 4fabba0bc3b2b4ea43d3424c24673f978a824a95
 }
