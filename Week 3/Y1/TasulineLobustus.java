@@ -14,7 +14,7 @@ public class TasulineLobustus implements Lobustus {
         this.delegaat.lobusta(isik);
         isik.lisaKulu(hind);
         isik.lisaKirjeldus(
-            String.format("tasusin külastuse eest %d", hind)
+            String.format("tasusin külastuse eest %.2f", hind)
         );
     }
 }

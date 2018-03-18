@@ -23,7 +23,7 @@ public class Kylastaja {
     }
 
     public void lisaKulu(double lisanduvKulu) {
-        this.kulud = lisanduvKulu;
+        this.kulud += lisanduvKulu;
     }
 
     // GET

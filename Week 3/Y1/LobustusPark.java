@@ -26,5 +26,7 @@ public class LobustusPark {
         }
 
         System.out.println("Kulud: "+ isik.kuludeSumma());
+        // Visual HorizontalRule
+        System.out.println("------------------------------");
     }
 }
