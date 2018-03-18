@@ -21,7 +21,7 @@ public class NimedeLyhendamine_parandus {
     public static void main(String[] args) throws Exception {
         // Get names from nimed.txt file
 
-        System.out.println(new File("abc.txt"));
+        // System.out.println(args[0]);
 
         ArrayList<String> nimed = readPersons(
             (args.length>0)?
@@ -30,21 +30,25 @@ public class NimedeLyhendamine_parandus {
         );
         // Process and print out the names
         printPersons(nimed);
-        readPersons("sellistFailiPole.txt");
+        //readPersons("sellistFailiPole.txt");
+        
     }
     
     // Get names from TXT file (nimed.txt)
     public static ArrayList<String> readPersons (String fn) throws Exception {
         // Save names here
         ArrayList<String> names = new ArrayList<String>();
+        File fileToRead = new File(fn);
         InputStream inputStream;
 
-        try {
-            inputStream = new FileInputStream(new File(fn));
-        } catch(FileNotFoundException e) {
-            //System.out.println("FNF");
+        if (!fileToRead.exists()) {
+            System.out.println("File not found");
             return null;
         }
+
+        inputStream = new FileInputStream(fileToRead);
+        
+        
         
         //InputStream inputStream = new FileInputStream(fn);
         BufferedReader failiSisu;
@@ -65,7 +69,11 @@ public class NimedeLyhendamine_parandus {
     }
 
     // Get namesList as input and AFTER processing print out the names
-    public static void printPersons(ArrayList<String> nimed) throws Exception {        
+    public static void printPersons(ArrayList<String> nimed) throws Exception { 
+        if (nimed == null) {
+            System.out.println("List empty, nothing to print out");
+            return;
+        }
         // Regex for filtering files
         String splitBySpace = "\\s+";
         // Print all names
