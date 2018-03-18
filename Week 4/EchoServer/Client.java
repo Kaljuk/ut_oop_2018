@@ -3,6 +3,8 @@
 import java.lang.*;
 import java.nio.charset.Charset;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -23,40 +25,38 @@ public class Client {
 
         byte[] b = sendMessage.getBytes(Charset.forName("UTF-8"));
         System.out.println("Sending message: "+sendMessage);
-        System.out.println(b);
 
         System.out.println("connecting to server");
         Socket socket = new Socket("localhost", 1337);
+        
         System.out.println("connected; sending data");
-        OutputStream out = socket.getOutputStream();
-        int byteToSend = 42;
+        DataOutputStream dataOut = new DataOutputStream(
+            socket.getOutputStream()
+        );
+        sendData(dataOut, sendMessage);
+        
 
-        // int[] bytesToSend = b;
-        int bytesToSend = b.length;
-        out.write(b.length);
-        for(int i=0; i<bytesToSend; i++) {
-            out.write(b[i]);
-        }
-        System.out.println("Now receiving data");
-        // Receive back
-        InputStream in = socket.getInputStream();
-        int receivedBytes = in.read();
-        // System.out.println(receivedBytes);
-        StringBuilder receivedMessage = new StringBuilder();
-        for (int i=0; i< receivedBytes; i++) {
-            int byteIn = in.read();
-            receivedMessage.append((char)byteIn);
-            //System.out.println("reading"+ (char)byteIn);
-        }
-        String fullMessage = receivedMessage.toString();
-        System.out.println("Received: " + fullMessage);
+        DataInputStream dataIn = new DataInputStream( socket.getInputStream() );
+        receiveData(dataIn);
 
-        in.close();
-        out.close();
         socket.close();
         //System.out.println("cleaned up");
     }
 
-    private void sendData(DataInputStream dataIn, String sendString) {
+    private static void sendData(DataOutputStream dataOut, String sendString) {
+        try {
+            dataOut.writeUTF(sendString);
+        } catch(IOException e) {
+            System.out.println("IOE"+e);
+        }
+    }
+
+    private static void receiveData(DataInputStream dataIn) {
+        try {
+            String receivedString = dataIn.readUTF();
+            System.out.println("Feedback from server: "+receivedString);
+        } catch(IOException e) {
+            System.out.println("IOE"+e);
+        }
     }
 }
