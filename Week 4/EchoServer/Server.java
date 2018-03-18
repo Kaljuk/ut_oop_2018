@@ -20,38 +20,38 @@ public class Server {
         
         try {
             while(true) {
-            try {
-                Socket socket = ss.accept();
-                System.out.println("client connected; waiting for a byte");
+                try {
+                    Socket socket = ss.accept();
+                    System.out.println("client connected; waiting for a byte");
 
-                DataInputStream dataIn = new DataInputStream(
-                    socket.getInputStream()
-                );
+                    DataInputStream dataIn = new DataInputStream(
+                        socket.getInputStream()
+                    );
 
-                DataOutputStream dataOut= new DataOutputStream(
-                    //new
-                    socket.getOutputStream()
-                );
+                    DataOutputStream dataOut= new DataOutputStream(
+                        //new
+                        socket.getOutputStream()
+                    );
 
-                System.out.println("Listening");
-                String line;
-                Boolean done = false;
-                while(!done) {
-                    //Thread.sleep(1000);
-                    //getDataIn(dataIn);
-                    line = dataIn.readUTF();
-                    System.out.println("Received: "+line);
-                    dataOut.writeUTF("[ServerResponse] "+line);
-                    //sendDataOut(dataOut, line);
+                    System.out.println("Listening");
+                    String line;
+                    Boolean done = false;
+                    while(!done) {
+                        //Thread.sleep(1000);
+                        //getDataIn(dataIn);
+                        line = dataIn.readUTF();
+                        System.out.println("Received: "+line);
+                        dataOut.writeUTF("[ServerResponse] "+line);
+                        //sendDataOut(dataOut, line);
+                    }
+                    dataIn.close();
+                    socket.close();
+                    ss.close();
+                } catch(EOFException e) {
+                    System.out.println(
+                        String.format("Client nr. %d served", ++clientsServed)
+                    );
                 }
-                dataIn.close();
-                socket.close();
-                ss.close();
-            } catch(EOFException e) {
-                System.out.println(
-                    String.format("Client nr. %d served", ++clientsServed)
-                );
-            }
             }
         } catch(IOException e) {
             System.out.println("IOE" + e);
