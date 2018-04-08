@@ -28,6 +28,9 @@ public class NimedeLyhendamine_parandus {
             args[0]:
             "nimed.txt"
         );
+
+        int lihaOnValmis = (ahjusOlnudAeg > 10)? true : false;
+
         // Process and print out the names
         printPersons(nimed);
         readPersons("sellistFailiPole.txt");

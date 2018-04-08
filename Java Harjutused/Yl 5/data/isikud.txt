@@ -1,0 +1,5 @@
+﻿07	Ave	K	02
+01	Erik	K	01
+02	Ave	K	02
+03	Bob	K	03
+04	Alvi	K	01
