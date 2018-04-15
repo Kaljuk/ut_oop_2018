@@ -23,7 +23,7 @@ public class ViiviseHoiataja implements Kontrollija {
     }
 
     public List<String> getHoiatatavadLaenutajad() {
-        return this.hoiatatavad();
+        return this.hoiatatavad;
     }
 
 }

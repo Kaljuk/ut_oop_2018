@@ -11,7 +11,8 @@ public class SuurimaViiviseLeidja implements Kontrollija {
     private boolean viivisSet = false;
 
     public void saadaHoiatus() {
-        System.out.println(this.viiviseOmanik + " " + this.viiviseTeoseKirjeldus);
+        System.out.println("-- Hoiatus! --");
+        System.out.println("Viivise omanik : " + this.viiviseOmanik + "\nLaenutatud teos: " + this.viiviseTeoseKirjeldus);
     }
 
     public void salvestaViivis(String laenutajaNimi, String teoseKirjeldus, double viiviseSuurus) {

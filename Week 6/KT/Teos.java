@@ -4,10 +4,11 @@ import java.util.Arrays;
  * Teos
  */
 public abstract class Teos implements Comparable<Teos>{
-    private String teoseKirjeldus; 
-    private String teoseTahis;
-    private String teoseLaenutaja;
-    private int days;
+    protected String teoseKirjeldus; 
+    protected String teoseTahis;
+    protected String teoseLaenutaja;
+    protected int days;
+    
     public Teos(String teoseKirjeldus, String teoseTahis, String teoseLaenutaja, int days) {
         this.teoseKirjeldus = teoseKirjeldus; 
         this.teoseTahis = teoseTahis;
@@ -58,6 +59,9 @@ public abstract class Teos implements Comparable<Teos>{
             "TeoseKirjeldus: %s, VajaTellidaHoidlast: %b, TeoseLaenutaja: %s", 
             this.teoseKirjeldus, kasHoidlast(), this.teoseLaenutaja
         );
+
+
+        return finalString;
     }
 
     public String getTeoseKirjeldus() {
@@ -66,6 +70,6 @@ public abstract class Teos implements Comparable<Teos>{
 
     @Override
     public int compareTo(Teos teineTeos) {
-        return this.teoseKirjeldus.compareTo(anotherString.getTeoseKirjeldus());
+        return this.teoseKirjeldus.compareTo(teineTeos.getTeoseKirjeldus());
     }
 }
