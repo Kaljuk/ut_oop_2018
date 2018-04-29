@@ -1,4 +1,12 @@
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,11 +28,15 @@ import javafx.scene.*;
  * Kalkulaator
  */
 public class Kalkulaator extends Application {
+    // File that the currencies and their rate to main currency is (at the moment it is eur)
     private String ratesFn = "rates.txt";
-    private String currentOther = "GBP";
-    //                              EEK    GBP  USD
-    private String rateForEur   = "15.6466 0.8 1.2";
-    private Double selectedRate = 0.8;
+
+    // Main currency that cannot be changed
+    private String mainCurrency     = "EUR";
+    // Other currency that main currency will be converted to
+    private String convertTargetCurrency = "EUR";
+    // All currencies and their values
+    private HashMap<String, Double> currencyRates = new HashMap<String, Double>(); 
 
     public static void main(String[] args) {
         launch(args);    
@@ -33,7 +45,13 @@ public class Kalkulaator extends Application {
     
     @Override
     public void start(Stage stage) {
-        getRates();
+        
+        // Add currencies from the file
+        try {
+            currencyRates = getRates(ratesFn);
+        } catch(Exception e) {
+            System.out.println("ERROR");
+        }
 
         Scene scene  = new Scene(new Group(), 450, 250);
         Canvas canvas= new Canvas(450, 250);
@@ -50,37 +68,35 @@ public class Kalkulaator extends Application {
         gc.fillRect(385,185,45,45);
 
         gc.setFill(Color.PEACHPUFF);
-        gc.fillPolygon(new double[]{385,390,420}, new double[]{185,190,240}, 3);
+        gc.fillPolygon(new double[]{450,420,390}, new double[]{250,190,240}, 3);
 
         TextField eurField = new TextField ();
         TextField otherField = new TextField ();
         
 
         eurField.setPromptText("EUR");
-        otherField.setPromptText(currentOther);
-        eurField.setText("123");
-        otherField.setText("123");
+        otherField.setPromptText(convertTargetCurrency);
+        eurField.setText("0.0");
+        otherField.setText("0.0");
         eurField.clear();
         otherField.clear();
 
-        eurField.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
-            // 
-            String converted = convertToOther(newValue);
-            System.out.println(converted);
-            //otherField.setPromptText(newValue);
-        });
-        otherField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            //System.out.println(newValue);
-            
-        });
+        otherField.setEditable(false);
         
         // CoiceBox
         ChoiceBox<String> otherCurrency = new ChoiceBox<String>();
-        otherCurrency.getItems().addAll("GBP", "USD", "EEK");
-        otherCurrency.setValue("GBP");
+        for(String c : currencyRates.keySet()) {
+            otherCurrency.getItems().add(c);
+            otherCurrency.setValue(c);
+        }
+        // otherCurrency.getItems().addAll("GBP", "USD", "EEK");
+        // otherCurrency.setValue("GBP");
 
-        otherCurrency.setOnAction(e -> changeOtherCurrency(otherCurrency, otherField));
+
+        // (observable, oldValue, newValue)
+        eurField.textProperty().addListener( e -> changeOtherCurrency(otherCurrency, eurField, otherField) );
+
+        otherCurrency.setOnAction(e -> changeOtherCurrency(otherCurrency, eurField, otherField));
 
         // Clear all fields button
         Button clearButton = new Button("Clear");
@@ -105,8 +121,8 @@ public class Kalkulaator extends Application {
         grid.add(clearButton, 1, 0);
 
         Group root = (Group) scene.getRoot();
-        root.getChildren().add(grid);
         root.getChildren().add(canvas);
+        root.getChildren().add(grid);
         stage.setScene(scene);
         stage.show();
     }
@@ -117,16 +133,20 @@ public class Kalkulaator extends Application {
             fields[i].clear();            
         }
     }
-    private void changeOtherCurrency(ChoiceBox<String> otherCurrency, TextField otherField) {
-        String selectedCurrency = otherCurrency.getValue();
-        currentOther = selectedCurrency;
-        otherField.setPromptText(currentOther);
+
+    // Change the other Currency box value
+    private void changeOtherCurrency(ChoiceBox otherCurrency, TextField mainCurrencyField, TextField otherField) {
+        // currencyRates.get(targetCurrency) * mainCurrency.getText()
+        Double convertedCurrency = convertToOtherCurrency(mainCurrencyField.getText(), otherCurrency.getValue().toString());
+        otherField.setPromptText(convertedCurrency.toString());
     }
-    private String convertToOther(String toConvert) {
-        String[] parts = toConvert.split("[.]|[,]");
+
+    private Double convertToOtherCurrency(String stringToDouble, String targetCurrency) {
+        String[] parts = stringToDouble.split("[.]|[,]");
         String doubleString = "";
+        
         if (parts.length > 2 || parts.length < 0) {
-            return "-";
+            return Double.NaN;
         } else {
             if (parts.length > 1) {
                 doubleString = parts[0].replaceAll("[^0-9]+","") + "." + parts[1].replaceAll("[^0-9]+","");
@@ -134,14 +154,48 @@ public class Kalkulaator extends Application {
                 doubleString = parts[0].replaceAll("[^0-9]+","");
             }
         }
-        if (doubleString.equals("")) {
-            return "-";
+        if (doubleString.equals("") || currencyRates.get(targetCurrency) == null) {
+            return Double.NaN;
         } else {
-            return Double.toString( selectedRate * Double.parseDouble(doubleString) );
+            return currencyRates.get(targetCurrency) * Double.parseDouble(doubleString);
         }
     };
 
-    private void getRates() {
-        System.out.println("High rates");
+    // Get currency rates from the txt file
+    private HashMap<String, Double> getRates(String fn) throws Exception {
+        // Save names here
+        HashMap<String, Double> currencies = new HashMap<String, Double>();
+        InputStream inputStream;
+        BufferedReader failiSisu;
+
+        try {
+            inputStream = new FileInputStream(new File(fn));
+            // Ei kasuta fileReaderit ning saab kodeeringut valida
+            failiSisu = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+
+            // Get file contents
+            String failiRida;
+            String currencyName;
+            Double currencyRate;
+            while((failiRida= failiSisu.readLine()) != null) {
+                try {
+                    currencyName = failiRida.split(" ")[0];
+                    currencyRate = Double.valueOf( failiRida.split(" ")[1] );
+                    currencies.put(currencyName, currencyRate);
+                    // Remove all unprintable characters
+                    currencyName = currencyName.replaceAll("\\p{C}", "");
+                    System.out.println(String.format("Found currency %s %.4f", currencyName, currencyRate));
+                } catch(Exception e) {
+                    System.out.println("Failed to add currency"+e.toString());
+                }
+            }
+            // Close the buffer
+            failiSisu.close();
+            
+        } catch(FileNotFoundException e) {
+            System.out.println("File not found, maybe check the filename?");
+        }
+        // Return found currencies
+        return currencies;
     }
 }
