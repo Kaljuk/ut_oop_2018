@@ -1,0 +1,9 @@
+graph {
+  Tartu -- Paide -- Tallinn;Valga--Tartu -- Elva;
+
+  Kuressaare -- Kuivastu --
+
+
+Parnu --Viljandi -- Tartu;
+  Tallinn -- Parnu;
+}
