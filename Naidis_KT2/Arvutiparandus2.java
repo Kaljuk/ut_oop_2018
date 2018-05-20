@@ -87,7 +87,7 @@ public class Arvutiparandus2 {
         boolean endSession = false;
         double teenitudSumma = 0;
         String tegevus;
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "utf8");
         while(!endSession) {
             tegevus = getOption(sc, validOptions);
             sooritaTegevus(sc, tegevus);

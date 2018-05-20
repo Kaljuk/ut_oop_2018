@@ -184,20 +184,19 @@ public class Kalkulaator extends Application {
             String failiRida;
             String currencyName;
             Double currencyRate;
-            try {
-                while((failiRida= failiSisu.readLine()) != null) {
-                    try {
-                        currencyName = failiRida.split(" ")[0];
-                        currencyRate = Double.valueOf( failiRida.split(" ")[1] );
-                        currencies.put(currencyName, currencyRate);
-                        // Remove all unprintable characters
-                        currencyName = currencyName.replaceAll("\\p{C}", "");
-                        System.out.println(String.format("Found currency %s %.4f", currencyName, currencyRate));
-                    } catch(Exception e) {
-                        System.out.println("Failed to add currency"+e.toString());
-                    }
+            while((failiRida= failiSisu.readLine()) != null) {
+                try {
+                    currencyName = failiRida.split(" ")[0];
+                    currencyRate = Double.valueOf( failiRida.split(" ")[1] );
+                    currencies.put(currencyName, currencyRate);
+                    // Remove all unprintable characters
+                    currencyName = currencyName.replaceAll("\\p{C}", "");
+                    System.out.println(String.format("Found currency %s %.4f", currencyName, currencyRate));
+                } catch(Exception e) {
+                    System.out.println("Failed to add currency"+e.toString());
                 }
-            } catch(IOException e) {}
+            }
+        
             // Close the buffer
             failiSisu.close();
             

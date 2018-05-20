@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import javafx.application.Application;
@@ -52,7 +53,8 @@ public class Kalkulaator extends Application {
         try {
             currencyRates = getRates(ratesFn);
         } catch(Exception e) {
-            System.out.println("ERROR");
+            System.out.println(e);
+            System.exit(0);
         }
 
         Scene scene  = new Scene(new Group(), 450, 250);
@@ -145,7 +147,7 @@ public class Kalkulaator extends Application {
     private void changeOtherCurrency(ChoiceBox otherCurrency, TextField mainCurrencyField, TextField otherField) {
         // currencyRates.get(targetCurrency) * mainCurrency.getText()
         Double convertedCurrency = convertToOtherCurrency(mainCurrencyField.getText(), otherCurrency.getValue().toString());
-        otherField.setPromptText(convertedCurrency.toString());
+        otherField.setPromptText( new DecimalFormat(".##").format( convertedCurrency ) ); // .toString()
     }
 
     private Double convertToOtherCurrency(String stringToDouble, String targetCurrency) {
@@ -164,12 +166,13 @@ public class Kalkulaator extends Application {
         if (doubleString.equals("") || currencyRates.get(targetCurrency) == null) {
             return Double.NaN;
         } else {
+            
             return currencyRates.get(targetCurrency) * Double.parseDouble(doubleString);
         }
     };
 
     // Get currency rates from the txt file
-    private HashMap<String, Double> getRates(String fn) {
+    private HashMap<String, Double> getRates(String fn) throws IOException {
         // Save names here
         HashMap<String, Double> currencies = new HashMap<String, Double>();
         InputStream inputStream;
@@ -184,20 +187,19 @@ public class Kalkulaator extends Application {
             String failiRida;
             String currencyName;
             Double currencyRate;
-            try {
-                while((failiRida= failiSisu.readLine()) != null) {
-                    try {
-                        currencyName = failiRida.split(" ")[0];
-                        currencyRate = Double.valueOf( failiRida.split(" ")[1] );
-                        currencies.put(currencyName, currencyRate);
-                        // Remove all unprintable characters
-                        currencyName = currencyName.replaceAll("\\p{C}", "");
-                        System.out.println(String.format("Found currency %s %.4f", currencyName, currencyRate));
-                    } catch(Exception e) {
-                        System.out.println("Failed to add currency"+e.toString());
-                    }
+            while((failiRida= failiSisu.readLine()) != null) {
+                try {
+                    currencyName = failiRida.split(" ")[0];
+                    currencyRate = Double.valueOf( failiRida.split(" ")[1] );
+                    currencies.put(currencyName, currencyRate);
+                    // Remove all unprintable characters
+                    currencyName = currencyName.replaceAll("\\p{C}", "");
+                    System.out.println(String.format("Found currency %s %.4f", currencyName, currencyRate));
+                } catch(Exception e) {
+                    System.out.println("Failed to add currency"+e.toString());
                 }
-            } catch(IOException e) {}
+            }
+        
             // Close the buffer
             failiSisu.close();
             
@@ -206,10 +208,7 @@ public class Kalkulaator extends Application {
             System.out.println("Currencies file not found, cannot find the file to read currencies from: "+ratesFn);
             System.exit(0);
         }
-        catch (IOException e) {
-            System.out.println("IOException: "+e);
-            System.exit(0);
-        }
+
         // Return found currencies
         return currencies;
     }
